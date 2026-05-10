@@ -2,26 +2,22 @@ using UnityEngine;
 
 public class ExitDoor : MonoBehaviour
 {
-    public GameUI gameUI;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Inventory inventory = other.GetComponent<Inventory>();
+        if (!other.CompareTag("Player")) return;
 
-            if (inventory != null && inventory.hasKey)
-            {
-                if (gameUI != null)
-                {
-                    gameUI.ShowVictory(inventory.score);
-                }
-                Debug.Log("ПЕРЕМОГА!");
-            }
-            else
-            {
-                Debug.Log("Двері зачинені. Спочатку знайди золотий ключ!");
-            }
+        Inventory inventory = other.GetComponent<Inventory>();
+        if (inventory == null) return;
+
+        if (inventory.hasKey)
+        {
+            Debug.Log("Р’РёС…С–Рґ РІС–РґРєСЂРёС‚Рѕ! РџРµСЂРµРјРѕРіР°!");
+            if (GameManager.Instance != null)
+                GameManager.Instance.TriggerVictory(inventory.score);
+        }
+        else
+        {
+            Debug.Log("Р”РІРµСЂС– Р·Р°С‡РёРЅРµРЅРѕ. РЎРїРѕС‡Р°С‚РєСѓ Р·РЅР°Р№РґС–С‚СЊ РєР»СЋС‡!");
         }
     }
 }
